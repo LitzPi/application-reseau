@@ -1,0 +1,17 @@
+# Ce dépôt est public : il ne doit contenir AUCUNE donnée personnelle.
+# Tout fichier JSON est ignoré par défaut, sauf les fichiers techniques
+# et les jeux d'exemple entièrement fictifs.
+*.json
+!package.json
+!package-lock.json
+!exemples/*.json
+!tests/**/*.json
+
+donnees/
+exports/
+reseau-export-*
+reseau-retour-*
+
+node_modules/
+test-results/
+playwright-report/

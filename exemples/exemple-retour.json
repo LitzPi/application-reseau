@@ -1,0 +1,220 @@
+{
+  "format": "application-reseau",
+  "schema_version": 1,
+  "origine": "claude",
+  "exporte_le": "2026-11-13T09:10:00Z",
+  "revision": 4,
+  "base_exporte_le": "2026-11-13T07:45:10Z",
+  "contextes": [
+    {
+      "id": "ctx_5d0c8a51-2f6e-4b7a-9a11-3c1e7f2b9d01",
+      "nom": "paddle",
+      "cree_le": "2026-09-20T18:02:11Z",
+      "modifie_le": "2026-09-20T18:02:11Z"
+    },
+    {
+      "id": "ctx_91b7e3c4-6a2d-4f58-8c03-7e5a1d4b6f02",
+      "nom": "pro",
+      "cree_le": "2026-09-22T08:15:40Z",
+      "modifie_le": "2026-09-22T08:15:40Z"
+    }
+  ],
+  "series": [
+    {
+      "id": "ser_2a4f6c8e-1b3d-4e5f-a7b9-0c1d2e3f4a03",
+      "nom": "Afterwork du club de paddle",
+      "contexte_id": "ctx_5d0c8a51-2f6e-4b7a-9a11-3c1e7f2b9d01",
+      "cree_le": "2026-09-20T18:03:05Z",
+      "modifie_le": "2026-09-20T18:03:05Z"
+    },
+    {
+      "id": "ser_7c9e1a3b-5d7f-4a2c-b4d6-8e0f1a2b3c04",
+      "nom": "Petit-déjeuner des dirigeants",
+      "contexte_id": "ctx_91b7e3c4-6a2d-4f58-8c03-7e5a1d4b6f02",
+      "cree_le": "2026-09-22T08:16:12Z",
+      "modifie_le": "2026-09-22T08:16:12Z"
+    }
+  ],
+  "evenements": [
+    {
+      "id": "evt_3e5a7c9b-2d4f-4b6a-8c0e-1f3a5b7c9d05",
+      "titre": "Afterwork d'octobre",
+      "date": "2026-10-08",
+      "serie_id": "ser_2a4f6c8e-1b3d-4e5f-a7b9-0c1d2e3f4a03",
+      "personne_ids": [
+        "per_4f6b8d0a-3c5e-4a7b-9d1f-2a4c6e8b0d08",
+        "per_8a0c2e4f-6b8d-4c1e-a3f5-7b9d1c3e5f09"
+      ],
+      "cree_le": "2026-10-08T17:40:00Z",
+      "modifie_le": "2026-10-10T09:00:00Z"
+    },
+    {
+      "id": "evt_6b8d0f2a-4c6e-4d8a-9b1c-3e5f7a9b1c06",
+      "titre": "Afterwork de novembre",
+      "date": "2026-11-12",
+      "serie_id": "ser_2a4f6c8e-1b3d-4e5f-a7b9-0c1d2e3f4a03",
+      "personne_ids": [
+        "per_4f6b8d0a-3c5e-4a7b-9d1f-2a4c6e8b0d08",
+        "per_0c2e4a6b-8d0f-4a2c-9e4b-6d8f0a2c4e17"
+      ],
+      "cree_le": "2026-11-12T17:35:20Z",
+      "modifie_le": "2026-11-12T19:10:02Z"
+    },
+    {
+      "id": "evt_9d1f3b5c-7e9a-4f2b-8d4e-5a7c9e1b3d07",
+      "titre": "Salon de la logistique",
+      "date": "2026-11-05",
+      "serie_id": null,
+      "personne_ids": [
+        "per_8a0c2e4f-6b8d-4c1e-a3f5-7b9d1c3e5f09"
+      ],
+      "cree_le": "2026-11-05T12:20:45Z",
+      "modifie_le": "2026-11-05T12:20:45Z"
+    }
+  ],
+  "personnes": [
+    {
+      "id": "per_4f6b8d0a-3c5e-4a7b-9d1f-2a4c6e8b0d08",
+      "prenom": "Camille",
+      "nom": "Vasseur",
+      "contexte_ids": [
+        "ctx_5d0c8a51-2f6e-4b7a-9a11-3c1e7f2b9d01"
+      ],
+      "metier": "Kinésithérapeute",
+      "entreprise": "Cabinet Vasseur",
+      "rencontre": "Afterwork du club de paddle, octobre 2026, présentée par le moniteur",
+      "details_personnels": "Joue en compétition régionale. Sa fille Lou entre en sixième.",
+      "anniversaire": "--03-14",
+      "anniversaire_agenda_le": "2026-10-10T09:00:00Z",
+      "echanges": [
+        {
+          "id": "ech_1a3c5e7b-9d1f-4b3a-8c5e-7f9a1b3c5d10",
+          "date": "2026-10-08",
+          "evenement_id": "evt_3e5a7c9b-2d4f-4b6a-8c0e-1f3a5b7c9d05",
+          "resume": "Premier échange : son cabinet, sa pratique du paddle en compétition."
+        },
+        {
+          "id": "ech_2c4e6a8b-0d2f-4c4a-9e6b-8f0a2c4e6a18",
+          "date": "2026-11-12",
+          "evenement_id": "evt_6b8d0f2a-4c6e-4d8a-9b1c-3e5f7a9b1c06",
+          "resume": "A parlé de l'entrée en sixième de sa fille Lou."
+        }
+      ],
+      "suivis": [
+        {
+          "id": "sui_2b4d6f8a-0c2e-4d4b-9e6f-8a0b2c4d6e11",
+          "action": "Lui envoyer le lien du tournoi de décembre",
+          "date_promise": "2026-10-15",
+          "statut": "fait",
+          "notion_tache_le": "2026-10-10T09:00:00Z",
+          "notion_url": "https://www.notion.so/exemple-tache-fictive-1"
+        },
+        {
+          "id": "sui_4e6a8c0b-2d4f-4e6a-9b8c-0d2e4f6a8c19",
+          "action": "Lui envoyer le nom de mon ostéo",
+          "date_promise": "2026-11-30",
+          "statut": "ouvert",
+          "notion_tache_le": "2026-11-13T09:10:00Z",
+          "notion_url": "https://www.notion.so/exemple-tache-fictive-2"
+        }
+      ],
+      "cree_le": "2026-10-10T09:00:00Z",
+      "modifie_le": "2026-11-13T09:10:00Z"
+    },
+    {
+      "id": "per_8a0c2e4f-6b8d-4c1e-a3f5-7b9d1c3e5f09",
+      "prenom": "Hugo",
+      "nom": "Marchetti",
+      "contexte_ids": [
+        "ctx_5d0c8a51-2f6e-4b7a-9a11-3c1e7f2b9d01",
+        "ctx_91b7e3c4-6a2d-4f58-8c03-7e5a1d4b6f02"
+      ],
+      "metier": "Directeur commercial",
+      "entreprise": "Transports Marchetti",
+      "rencontre": "Afterwork du club de paddle, octobre 2026",
+      "details_personnels": "Deux enfants, passionné de voile.",
+      "anniversaire": "1984-07-02",
+      "anniversaire_agenda_le": null,
+      "echanges": [
+        {
+          "id": "ech_3c5e7a9b-1d3f-4e5a-8b7c-9d1e3f5a7b12",
+          "date": "2026-10-08",
+          "evenement_id": "evt_3e5a7c9b-2d4f-4b6a-8c0e-1f3a5b7c9d05",
+          "resume": "A parlé de la reprise de l'entreprise familiale."
+        },
+        {
+          "id": "ech_6a8c0e2b-4d6f-4a8c-9b0d-2e4f6a8c0e20",
+          "date": "2026-11-05",
+          "evenement_id": "evt_9d1f3b5c-7e9a-4f2b-8d4e-5a7c9e1b3d07",
+          "resume": "Croisé au salon de la logistique : il recrute un responsable d'exploitation."
+        }
+      ],
+      "suivis": [],
+      "cree_le": "2026-10-10T09:00:00Z",
+      "modifie_le": "2026-11-13T09:10:00Z"
+    },
+    {
+      "id": "per_0c2e4a6b-8d0f-4a2c-9e4b-6d8f0a2c4e17",
+      "prenom": "Thomas",
+      "nom": "Reynaud",
+      "contexte_ids": [
+        "ctx_5d0c8a51-2f6e-4b7a-9a11-3c1e7f2b9d01"
+      ],
+      "metier": "Architecte",
+      "entreprise": "Atelier Reynaud",
+      "rencontre": "Afterwork du club de paddle, novembre 2026",
+      "details_personnels": "Joue au paddle depuis deux ans.",
+      "anniversaire": "--11-21",
+      "anniversaire_agenda_le": "2026-11-13T09:10:00Z",
+      "echanges": [
+        {
+          "id": "ech_8c0e2a4b-6d8f-4c0a-9d2e-4f6a8c0e2a21",
+          "date": "2026-11-12",
+          "evenement_id": "evt_6b8d0f2a-4c6e-4d8a-9b1c-3e5f7a9b1c06",
+          "resume": "Cherche un partenaire pour le tournoi de janvier."
+        }
+      ],
+      "suivis": [],
+      "cree_le": "2026-11-13T09:10:00Z",
+      "modifie_le": "2026-11-13T09:10:00Z"
+    }
+  ],
+  "notes_brutes": [
+    {
+      "id": "not_5e7a9c1b-3d5f-4a7b-8c9d-1e3f5a7b9c13",
+      "texte": "Camille, kiné, joue en compétition. Hugo, directeur commercial dans le transport, reprend la boîte familiale. Envoyer à Camille le lien du tournoi de décembre.",
+      "saisie_le": "2026-10-08T19:55:30Z",
+      "modifie_le": "2026-10-08T19:55:30Z",
+      "evenement_id": "evt_3e5a7c9b-2d4f-4b6a-8c0e-1f3a5b7c9d05",
+      "statut": "traitee",
+      "traitee_le": "2026-10-10T09:00:00Z"
+    },
+    {
+      "id": "not_7a9c1e3b-5d7f-4b9a-8d1c-3e5f7a9b1c14",
+      "texte": "Camille : sa fille Lou entre en sixième. Lui envoyer le nom de mon ostéo avant fin novembre.",
+      "saisie_le": "2026-11-12T19:02:14Z",
+      "modifie_le": "2026-11-12T19:02:14Z",
+      "evenement_id": "evt_6b8d0f2a-4c6e-4d8a-9b1c-3e5f7a9b1c06",
+      "statut": "traitee",
+      "traitee_le": "2026-11-13T09:10:00Z"
+    },
+    {
+      "id": "not_9c1e3a5b-7d9f-4c1a-8e3b-5a7c9e1b3d15",
+      "texte": "Nouveau : Thomas Reynaud, architecte chez Atelier Reynaud, joue depuis deux ans, cherche un partenaire pour le tournoi de janvier. Anniversaire le 21 novembre.",
+      "saisie_le": "2026-11-12T19:08:41Z",
+      "modifie_le": "2026-11-12T19:09:03Z",
+      "evenement_id": "evt_6b8d0f2a-4c6e-4d8a-9b1c-3e5f7a9b1c06",
+      "statut": "traitee",
+      "traitee_le": "2026-11-13T09:10:00Z"
+    },
+    {
+      "id": "not_1e3a5c7b-9d1f-4e3a-8b5c-7d9e1f3a5b16",
+      "texte": "Croisé Hugo au salon de la logistique, il recrute un responsable d'exploitation.",
+      "saisie_le": "2026-11-05T12:25:09Z",
+      "modifie_le": "2026-11-05T12:25:09Z",
+      "evenement_id": null,
+      "statut": "traitee",
+      "traitee_le": "2026-11-13T09:10:00Z"
+    }
+  ]
+}

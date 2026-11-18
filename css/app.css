@@ -1,0 +1,219 @@
+/* Direction « Carnet », palette A « Bleu nuit ». */
+
+:root {
+  color-scheme: light dark;
+  --fond: #eef1f8;
+  --carte: #ffffff;
+  --texte: #141a2e;
+  --secondaire: #5b6478;
+  --trait: rgba(40, 60, 120, 0.16);
+  --accent: #2447d6;
+  --sur-accent: #ffffff;
+  --accent-doux: #e3e9fd;
+  --danger: #c0271d;
+  --barre: rgba(247, 248, 252, 0.94);
+  --voile: rgba(10, 15, 31, 0.45);
+  --hauteur-visible: 100dvh;
+  --bord: 16px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fond: #0a0f1f;
+    --carte: #151b2e;
+    --texte: #eef1f8;
+    --secondaire: #9aa3ba;
+    --trait: rgba(200, 210, 255, 0.16);
+    --accent: #7c9bff;
+    --sur-accent: #0a0f1f;
+    --accent-doux: #1f2a52;
+    --danger: #ff8478;
+    --barre: rgba(14, 19, 36, 0.94);
+    --voile: rgba(0, 0, 0, 0.6);
+  }
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--fond);
+  color: var(--texte);
+  font: 17px/1.4 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+  -webkit-text-size-adjust: 100%;
+  overscroll-behavior: none;
+}
+
+button, input, textarea { font: inherit; color: inherit; }
+button { background: none; border: 0; padding: 0; margin: 0; text-align: inherit; cursor: pointer; }
+[hidden] { display: none !important; }
+
+/* ------------------------------------------------------------ structure */
+
+#app {
+  height: var(--hauteur-visible);
+  display: flex;
+  flex-direction: column;
+  padding-top: env(safe-area-inset-top);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+#ecran { flex: 1; min-height: 0; display: flex; }
+
+.ecran { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.ecran.entree { animation: entree 220ms ease-out; }
+@keyframes entree {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ecran.entree { animation: none; }
+}
+
+.defilant {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 0 var(--bord) 24px;
+}
+
+.pied { flex: none; padding: 8px var(--bord) 12px; }
+
+/* ------------------------------------------------------------ titres et listes */
+
+.grand-titre { font-size: 34px; font-weight: 700; letter-spacing: -0.4px; margin: 14px 4px 16px; }
+
+.bloc { margin-bottom: 26px; }
+.entete-section {
+  font-size: 13px; font-weight: 400; text-transform: uppercase; letter-spacing: 0.3px;
+  color: var(--secondaire); margin: 0 16px 7px;
+}
+.note-section { font-size: 13px; color: var(--secondaire); margin: 8px 16px 0; }
+.note-section.avertissement { color: var(--danger); font-weight: 600; margin-bottom: 12px; }
+
+.groupe { background: var(--carte); border-radius: 14px; overflow: hidden; }
+.groupe.espace { margin-top: 14px; }
+
+.ligne {
+  display: flex; align-items: center; gap: 12px;
+  width: 100%; min-height: 60px; padding: 10px 14px; position: relative;
+}
+.ligne + .ligne::before {
+  content: ""; position: absolute; top: 0; left: 14px; right: 0; height: 1px; background: var(--trait);
+}
+button.ligne:active, .alerte:active { background: var(--accent-doux); }
+
+.ligne-texte { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.principal { font-weight: 600; }
+.detail { font-size: 14px; color: var(--secondaire); }
+.note-extrait {
+  font-weight: 400;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.compteur { color: var(--secondaire); }
+.chevron { color: var(--secondaire); font-size: 22px; line-height: 1; }
+
+.pastille {
+  width: 32px; height: 32px; border-radius: 9px; flex: none;
+  display: grid; place-items: center; background: var(--accent-doux); color: var(--accent);
+}
+.pastille svg { width: 18px; height: 18px; }
+
+.ligne.info { min-height: 48px; justify-content: space-between; gap: 16px; }
+.info-libelle { flex: none; max-width: 55%; }
+.info-valeur { color: var(--secondaire); text-align: right; overflow-wrap: anywhere; }
+
+.alerte {
+  display: flex; align-items: center; gap: 12px; width: 100%;
+  background: var(--carte); border: 1.5px solid var(--danger); border-radius: 14px;
+  padding: 10px 14px; margin-bottom: 22px;
+}
+.alerte .pastille { background: transparent; color: var(--danger); }
+
+.vide { color: var(--secondaire); text-align: center; padding: 48px 28px; margin: 0; }
+
+/* ------------------------------------------------------------ boutons */
+
+.bouton {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  width: 100%; min-height: 50px; border-radius: 14px; padding: 0 16px;
+  font-weight: 600; text-align: center; cursor: pointer;
+}
+.bouton.grand { min-height: 56px; border-radius: 16px; font-size: 18px; }
+.bloc > .bouton { margin-top: 14px; }
+.bloc > .entete-section + .bouton { margin-top: 0; }
+.bouton svg { width: 20px; height: 20px; }
+.bouton.principal { background: var(--accent); color: var(--sur-accent); }
+.bouton.secondaire { background: var(--carte); color: var(--accent); }
+.bouton.danger { background: var(--danger); color: var(--sur-accent); }
+.bouton:active { opacity: 0.75; }
+
+.lien {
+  display: block; min-height: 44px; padding: 11px 8px;
+  color: var(--accent); font-size: 15px; font-weight: 600; cursor: pointer;
+}
+.lien.danger { color: var(--danger); }
+.lien.centre { width: 100%; text-align: center; }
+
+.champ-cache { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+label:focus-within, button:focus-visible, textarea:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 2px;
+}
+.zone-saisie:focus-visible { outline: none; }
+
+/* ------------------------------------------------------------ navigation */
+
+.navigation {
+  flex: none; min-height: 44px; display: grid; grid-template-columns: 1fr auto 1fr;
+  align-items: center; padding: 0 6px;
+}
+.nav-titre { font-size: 17px; font-weight: 600; margin: 0; text-align: center; }
+.nav-retour, .nav-action { min-height: 44px; padding: 0 10px; color: var(--accent); }
+.nav-retour { justify-self: start; display: flex; align-items: center; gap: 4px; }
+.nav-action { justify-self: end; font-weight: 600; }
+.chevron-retour { font-size: 28px; line-height: 1; margin-top: -3px; }
+
+#onglets {
+  flex: none; display: flex; background: var(--barre);
+  border-top: 1px solid var(--trait);
+  padding: 6px 4px calc(6px + env(safe-area-inset-bottom));
+}
+.onglet {
+  flex: 1; min-height: 48px; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 3px;
+  font-size: 11px; color: var(--secondaire);
+}
+.onglet svg { width: 25px; height: 25px; }
+.onglet.actif { color: var(--accent); font-weight: 600; }
+
+/* ------------------------------------------------------------ saisie */
+
+.saisie {
+  flex: 1; min-height: 0; display: flex; flex-direction: column;
+  padding: 6px var(--bord) calc(8px + env(safe-area-inset-bottom));
+}
+.zone-saisie {
+  flex: 1; min-height: 0; width: 100%; resize: none;
+  background: var(--carte); border: 0; border-radius: 14px; padding: 14px;
+  font-size: 17px; line-height: 1.45; caret-color: var(--accent);
+}
+.zone-saisie::placeholder { color: var(--secondaire); }
+.sous-saisie { flex: none; display: flex; align-items: center; justify-content: space-between; min-height: 44px; }
+.temoin { font-size: 13px; color: var(--secondaire); margin: 0; padding: 0 6px; }
+
+/* ------------------------------------------------------------ feuilles de dialogue */
+
+.feuille {
+  border: 0; border-radius: 18px; padding: 22px 18px 16px;
+  width: min(92vw, 380px); max-height: 80vh; overflow-y: auto;
+  background: var(--carte); color: var(--texte);
+}
+.feuille::backdrop { background: var(--voile); }
+.feuille-titre { font-size: 19px; font-weight: 700; margin: 0 0 10px; text-align: center; }
+.feuille-texte { font-size: 15px; color: var(--secondaire); margin: 0 0 8px; text-align: center; overflow-wrap: anywhere; }
+.feuille-actions { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
+.feuille .bouton.secondaire { background: var(--fond); }
