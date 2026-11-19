@@ -9,12 +9,16 @@ import { ecranAccueil } from "./ecrans/accueil.js";
 import { ecranNotes } from "./ecrans/notes.js";
 import { ecranSaisie } from "./ecrans/saisie.js";
 import { ecranSauvegarde } from "./ecrans/sauvegarde.js";
+import { ecranEvenement } from "./ecrans/evenement.js";
+import { ecranNouvelEvenement } from "./ecrans/evenement-nouveau.js";
 
 const ROUTES = [
   { motif: /^\/$/, ecran: ecranAccueil, onglet: "accueil", vivant: true },
   { motif: /^\/notes$/, ecran: ecranNotes, onglet: "accueil", vivant: true },
-  // La saisie n'est pas redessinée pendant la frappe, et masque les onglets.
-  { motif: /^\/note\/([\w-]+)$/, ecran: ecranSaisie, onglet: null, vivant: false },
+  // La saisie et les formulaires ne sont pas redessinés pendant la frappe, et masquent les onglets.
+  { motif: /^\/note\/([\w-]+)(?:\/([\w-]+))?$/, ecran: ecranSaisie, onglet: null, vivant: false },
+  { motif: /^\/evenement\/nouveau$/, ecran: ecranNouvelEvenement, onglet: null, vivant: false },
+  { motif: /^\/evenement\/([\w-]+)$/, ecran: ecranEvenement, onglet: "accueil", vivant: true },
   { motif: /^\/sauvegarde$/, ecran: ecranSauvegarde, onglet: "sauvegarde", vivant: true },
 ];
 
@@ -34,6 +38,8 @@ const contexte = {
 let cheminAffiche = null;
 let ecranCourant = null;
 let routeCourante = null;
+// Nombre d'écrans ouverts depuis le lancement : sait s'il existe un « précédent ».
+let profondeur = 0;
 
 const cheminDemande = () => location.hash.slice(1) || "/";
 
@@ -62,25 +68,45 @@ function dessinerOnglets(actif) {
  */
 function afficher(chemin, { anime = true } = {}) {
   ecranCourant?.quitter?.();
+  // Un simple rafraîchissement du même écran ne doit pas faire remonter la liste.
+  const defilement = chemin === cheminAffiche ? zoneEcran.querySelector(".defilant")?.scrollTop ?? 0 : 0;
   const { route, params } = trouverRoute(chemin);
   routeCourante = route;
   cheminAffiche = chemin;
   ecranCourant = route.ecran({
     params,
     naviguer,
+    revenir,
     remplacerChemin,
     contexte,
     rafraichir: () => afficher(cheminAffiche, { anime: false }),
   });
   ecranCourant.element.classList.toggle("entree", anime);
   zoneEcran.replaceChildren(ecranCourant.element);
+  if (defilement > 0) zoneEcran.querySelector(".defilant").scrollTop = defilement;
   dessinerOnglets(route.onglet);
   ecranCourant.apresAffichage?.();
 }
 
-function naviguer(chemin) {
-  if (cheminDemande() !== chemin) location.hash = chemin;
+/** `remplacer` : l'écran quitté (un formulaire validé) ne reste pas dans l'historique. */
+function naviguer(chemin, { remplacer = false } = {}) {
+  if (remplacer) {
+    history.replaceState(null, "", `#${chemin}`);
+  } else if (cheminDemande() !== chemin) {
+    location.hash = chemin;
+    profondeur += 1;
+  }
   if (cheminAffiche !== chemin) afficher(chemin);
+}
+
+/** Retour à l'écran précédent de l'app ; à l'accueil s'il n'y en a pas. */
+function revenir() {
+  if (profondeur > 0) {
+    profondeur -= 1;
+    history.back();
+  } else {
+    naviguer("/");
+  }
 }
 
 /** Change l'adresse sans redessiner (une note vient de recevoir son identifiant). */

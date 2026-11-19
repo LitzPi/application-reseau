@@ -205,6 +205,44 @@ label:focus-within, button:focus-visible, textarea:focus-visible {
 .sous-saisie { flex: none; display: flex; align-items: center; justify-content: space-between; min-height: 44px; }
 .temoin { font-size: 13px; color: var(--secondaire); margin: 0; padding: 0 6px; }
 
+.rattachement {
+  flex: none; display: flex; align-items: center; gap: 10px;
+  background: var(--carte); border-radius: 12px; min-height: 48px; padding: 0 4px 0 14px; margin-bottom: 10px;
+}
+.rattachement-valeur { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rattachement-changer { min-height: 44px; padding: 0 10px; color: var(--accent); font-weight: 600; }
+
+/* ------------------------------------------------------------ événements et formulaires */
+
+.grand-titre.serre { margin-bottom: 4px; }
+.sous-titre { color: var(--secondaire); margin: 0 4px 22px; }
+.vide.court { padding: 8px 28px 28px; }
+
+.coche {
+  width: 26px; height: 26px; border-radius: 50%; flex: none;
+  display: grid; place-items: center; border: 2px solid var(--trait); color: var(--sur-accent);
+}
+.coche.active { background: var(--accent); border-color: var(--accent); }
+.coche svg { width: 15px; height: 15px; }
+
+.formulaire { margin-top: 10px; }
+.champ {
+  display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 0 14px; position: relative;
+}
+.champ + .champ::before {
+  content: ""; position: absolute; top: 0; left: 14px; right: 0; height: 1px; background: var(--trait);
+}
+.champ-libelle { flex: none; width: 34%; }
+.champ-controle {
+  flex: 1; min-width: 0; min-height: 44px; border: 0; background: transparent;
+  font-size: 17px; text-align: right; color: var(--texte); appearance: none; -webkit-appearance: none;
+}
+.champ-controle::placeholder { color: var(--secondaire); }
+select.champ-controle { color: var(--accent); text-align-last: right; }
+.champ-controle:focus-visible { outline: none; }
+.champ:focus-within .champ-libelle { color: var(--accent); }
+.note-section.avertissement:empty { display: none; }
+
 /* ------------------------------------------------------------ feuilles de dialogue */
 
 .feuille {

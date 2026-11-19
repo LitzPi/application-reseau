@@ -8,6 +8,16 @@ const FORMAT_DATE_HEURE = new Intl.DateTimeFormat("fr-FR", {
   day: "numeric", month: "short", hour: "2-digit", minute: "2-digit",
 });
 
+const FORMAT_DATE_LONGUE = new Intl.DateTimeFormat("fr-FR", {
+  weekday: "short", day: "numeric", month: "short", year: "numeric",
+});
+
+/** « jeu. 12 nov. 2026 » à partir d'une date AAAA-MM-JJ (sans décalage de fuseau). */
+export function dateLongue(date) {
+  const [annee, mois, jour] = date.split("-").map(Number);
+  return FORMAT_DATE_LONGUE.format(new Date(annee, mois - 1, jour));
+}
+
 export function dateHeure(horodatage) {
   return FORMAT_DATE_HEURE.format(new Date(horodatage));
 }

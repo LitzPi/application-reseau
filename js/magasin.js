@@ -5,7 +5,8 @@ import { lire, ecrire } from "./stockage.js";
 import { consigner } from "./journal.js";
 import { analyserTexte, nomFichierExport } from "./format.js";
 import { etatVide, construireExport, controlerRevision, fusionner } from "./fusion.js";
-import { creerNote, modifierNote, supprimerNote } from "./notes.js";
+import { creerNote, modifierNote, supprimerNote, rattacherNote } from "./notes.js";
+import { creerContexte, creerSerie, creerEvenement, basculerPresence } from "./evenements.js";
 import {
   metaVide, marquerModification, marquerSauvegarde, empilerInstantane, annulerImport,
 } from "./sauvegarde.js";
@@ -49,10 +50,45 @@ async function remplacer(partiel) {
 
 // ---------------------------------------------------------------- notes
 
-export function ajouterNote(texte) {
-  const { etat, note } = creerNote(donnees.etat, texte, new Date());
+export function ajouterNote(texte, evenementId = null) {
+  const { etat, note } = creerNote(donnees.etat, texte, new Date(), evenementId);
   modifierLocalement(etat);
   return note.id;
+}
+
+export function changerEvenementDeNote(id, evenementId) {
+  modifierLocalement(rattacherNote(donnees.etat, id, evenementId, new Date()));
+}
+
+// ---------------------------------------------------------------- événements
+
+/**
+ * Crée un événement et, au besoin, sa série et son contexte, en une seule fois.
+ * `serie` : null, { id } pour une série existante, ou
+ * { nom, contexteId } / { nom, nouveauContexte } pour une nouvelle.
+ */
+export function ajouterEvenement({ titre, date, serie }) {
+  const maintenant = new Date();
+  let etat = donnees.etat;
+  let serieId = serie?.id ?? null;
+  if (serie && !serie.id) {
+    let contexteId = serie.contexteId;
+    if (!contexteId) {
+      const creation = creerContexte(etat, serie.nouveauContexte, maintenant);
+      etat = creation.etat;
+      contexteId = creation.contexte.id;
+    }
+    const creation = creerSerie(etat, serie.nom, contexteId, maintenant);
+    etat = creation.etat;
+    serieId = creation.serie.id;
+  }
+  const creation = creerEvenement(etat, { titre, date, serieId }, maintenant);
+  modifierLocalement(creation.etat);
+  return creation.evenement.id;
+}
+
+export function changerPresence(evenementId, personneId) {
+  modifierLocalement(basculerPresence(donnees.etat, evenementId, personneId, new Date()));
 }
 
 export function changerNote(id, texte) {

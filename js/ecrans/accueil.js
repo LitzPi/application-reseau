@@ -1,8 +1,11 @@
 import { h, icone, pastille, groupe } from "../dom.js";
-import { ilYA } from "../dates.js";
+import { dateLongue, ilYA } from "../dates.js";
 import { lireDonnees } from "../magasin.js";
 import { notesNonTraitees } from "../notes.js";
 import { etatSauvegarde } from "../sauvegarde.js";
+import { evenementsRecents, titreEvenement, notesDeLEvenement } from "../evenements.js";
+
+const MAX_EVENEMENTS = 3;
 
 function texteSauvegarde(meta, suivi) {
   if (suivi.jamais) return suivi.a_sauvegarder ? "Jamais sauvegardé" : "Rien à sauvegarder";
@@ -18,6 +21,23 @@ function alerteSauvegarde(suivi, naviguer) {
       h("span", { classe: "principal", texte: `${depuis} : ${suivi.jours} jours` }),
       h("span", { classe: "detail", texte: "Exporter maintenant pour ne rien perdre" })),
     h("span", { classe: "chevron", texte: "›", "aria-hidden": "true" }));
+}
+
+function ligneEvenement(etat, evenement, naviguer) {
+  const notes = notesDeLEvenement(etat, evenement.id).length;
+  const detail = `${dateLongue(evenement.date)} · ${notes} note${notes > 1 ? "s" : ""}`;
+  return h("button", { classe: "ligne", type: "button", onclick: () => naviguer(`/evenement/${evenement.id}`) },
+    pastille("evenement"),
+    h("span", { classe: "ligne-texte" },
+      h("span", { classe: "principal", texte: titreEvenement(etat, evenement) }),
+      h("span", { classe: "detail", texte: detail })),
+    h("span", { classe: "chevron", texte: "›", "aria-hidden": "true" }));
+}
+
+function blocEvenements(etat, naviguer) {
+  const evenements = evenementsRecents(etat).slice(0, MAX_EVENEMENTS);
+  if (evenements.length === 0) return null;
+  return groupe("Derniers événements", evenements.map((e) => ligneEvenement(etat, e, naviguer)));
 }
 
 export function ecranAccueil({ naviguer }) {
@@ -37,10 +57,13 @@ export function ecranAccueil({ naviguer }) {
     h("div", { classe: "defilant" },
       h("h1", { classe: "grand-titre", texte: "Accueil" }),
       alerteSauvegarde(suivi, naviguer),
-      groupe("En attente", [ligneNotes])),
+      groupe("En attente", [ligneNotes]),
+      blocEvenements(etat, naviguer)),
     h("div", { classe: "pied" },
       h("button", { classe: "bouton principal grand", type: "button", onclick: () => naviguer("/note/nouvelle") },
-        icone("plus"), "Nouvelle note")));
+        icone("plus"), "Nouvelle note"),
+      h("button", { classe: "lien centre", type: "button", onclick: () => naviguer("/evenement/nouveau"),
+        texte: "Nouvel événement" })));
 
   return { element };
 }

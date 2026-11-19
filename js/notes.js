@@ -26,6 +26,13 @@ export function modifierNote(etat, id, texte, maintenant) {
   return { ...etat, notes_brutes: notes };
 }
 
+/** Rattache la note à un événement, ou à aucun (null). */
+export function rattacherNote(etat, id, evenementId, maintenant) {
+  const notes = etat.notes_brutes.map((note) =>
+    note.id === id ? { ...note, evenement_id: evenementId, modifie_le: maintenant.toISOString() } : note);
+  return { ...etat, notes_brutes: notes };
+}
+
 /** Supprime la note et retient son identifiant pour qu'un import ne la ramène pas. */
 export function supprimerNote(etat, id) {
   if (!etat.notes_brutes.some((note) => note.id === id)) return etat;
