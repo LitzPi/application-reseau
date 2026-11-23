@@ -1,6 +1,6 @@
 {
   "name": "application-reseau",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "private": true,
   "description": "PWA personnelle : mémoire des personnes croisées en événement. Aucune donnée dans ce dépôt.",
   "type": "module",

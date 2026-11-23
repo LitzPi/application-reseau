@@ -2,7 +2,7 @@
 // Changer CACHE en même temps que VERSION (js/version.js) à chaque livraison :
 // c'est ce qui déclenche la mise à jour sur le téléphone.
 
-const CACHE = "reseau-v0.3.0";
+const CACHE = "reseau-v0.3.1";
 
 const FICHIERS = [
   "./",
