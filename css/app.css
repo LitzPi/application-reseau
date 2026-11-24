@@ -46,7 +46,7 @@ html, body {
   overscroll-behavior: none;
 }
 
-button, input, textarea { font: inherit; color: inherit; }
+button, input, textarea, select { font: inherit; color: inherit; }
 button { background: none; border: 0; padding: 0; margin: 0; text-align: inherit; cursor: pointer; }
 [hidden] { display: none !important; }
 
@@ -241,7 +241,7 @@ label:focus-within, button:focus-visible, textarea:focus-visible {
   font-size: 17px; text-align: right; color: var(--texte); appearance: none; -webkit-appearance: none;
 }
 .champ-controle::placeholder { color: var(--secondaire); }
-select.champ-controle { color: var(--accent); text-align-last: right; }
+select.champ-controle { color: var(--accent); text-align-last: right; text-overflow: ellipsis; }
 .champ-controle:focus-visible { outline: none; }
 .champ:focus-within .champ-libelle { color: var(--accent); }
 .note-section.avertissement:empty { display: none; }
@@ -266,6 +266,28 @@ select.champ-controle { color: var(--accent); text-align-last: right; }
 .texte-long.fait { color: var(--secondaire); text-decoration: line-through; }
 .trace { font-size: 13px; color: var(--secondaire); }
 .lien-trace { color: var(--accent); text-decoration: none; min-height: 28px; display: inline-flex; align-items: center; }
+
+/* ------------------------------------------------------------ préparer */
+
+.formulaire.sans-marge { margin-top: 0; }
+.espace-haut { margin-top: 24px; }
+.cartes { display: flex; flex-direction: column; gap: 10px; }
+.carte {
+  display: flex; flex-direction: column; gap: 4px; width: 100%;
+  background: var(--carte); border-radius: 14px; padding: 13px 14px;
+}
+.carte:active { background: var(--accent-doux); }
+.carte-entete {
+  display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0 10px;
+}
+.carte-entete .detail { flex: none; font-size: 13px; }
+.rubrique { display: flex; flex-direction: column; margin-top: 5px; }
+.rubrique-libelle {
+  font-size: 12px; text-transform: uppercase; letter-spacing: 0.3px; color: var(--secondaire);
+}
+.rubrique-texte { font-size: 15px; overflow-wrap: anywhere; }
+.rubrique.suivi .rubrique-libelle, .rubrique.suivi .rubrique-texte { color: var(--accent); }
+.rubrique.suivi .rubrique-texte { font-weight: 600; }
 
 /* ------------------------------------------------------------ feuilles de dialogue */
 
