@@ -13,6 +13,7 @@ import { ecranEvenement } from "./ecrans/evenement.js";
 import { ecranNouvelEvenement } from "./ecrans/evenement-nouveau.js";
 import { ecranPersonnes } from "./ecrans/personnes.js";
 import { ecranPreparer } from "./ecrans/preparer.js";
+import { ecranAnniversaires } from "./ecrans/anniversaires.js";
 import { ecranPersonne } from "./ecrans/personne.js";
 
 const ROUTES = [
@@ -25,6 +26,7 @@ const ROUTES = [
   { motif: /^\/preparer$/, ecran: ecranPreparer, onglet: "preparer", vivant: true },
   { motif: /^\/personnes$/, ecran: ecranPersonnes, onglet: "personnes", vivant: true },
   { motif: /^\/personne\/([\w-]+)$/, ecran: ecranPersonne, onglet: "personnes", vivant: true },
+  { motif: /^\/anniversaires$/, ecran: ecranAnniversaires, onglet: "anniversaires", vivant: true },
   { motif: /^\/sauvegarde$/, ecran: ecranSauvegarde, onglet: "sauvegarde", vivant: true },
 ];
 
@@ -32,6 +34,7 @@ const ONGLETS = [
   { cle: "accueil", libelle: "Accueil", icone: "accueil", chemin: "/" },
   { cle: "preparer", libelle: "Préparer", icone: "evenement", chemin: "/preparer" },
   { cle: "personnes", libelle: "Personnes", icone: "personnes", chemin: "/personnes" },
+  { cle: "anniversaires", libelle: "Anniv.", icone: "gateau", chemin: "/anniversaires" },
   { cle: "sauvegarde", libelle: "Sauvegarde", icone: "sauvegarde", chemin: "/sauvegarde" },
 ];
 

@@ -115,6 +115,9 @@ button.ligne:active, .alerte:active { background: var(--accent-doux); }
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
 .compteur { color: var(--secondaire); }
+.quand { flex: none; font-size: 14px; color: var(--secondaire); white-space: nowrap; }
+.quand.proche { color: var(--accent); font-weight: 600; }
+.quand.retard { color: var(--danger); font-weight: 600; }
 .chevron { color: var(--secondaire); font-size: 22px; line-height: 1; }
 
 .pastille {

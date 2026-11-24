@@ -4,6 +4,8 @@ import { lireDonnees } from "../magasin.js";
 import { notesNonTraitees } from "../notes.js";
 import { etatSauvegarde } from "../sauvegarde.js";
 import { evenementsRecents, titreEvenement, notesDeLEvenement } from "../evenements.js";
+import { nomComplet } from "../personnes.js";
+import { cetteSemaine, libelleEcheance } from "../semaine.js";
 
 const MAX_EVENEMENTS = 3;
 
@@ -21,6 +23,34 @@ function alerteSauvegarde(suivi, naviguer) {
       h("span", { classe: "principal", texte: `${depuis} : ${suivi.jours} jours` }),
       h("span", { classe: "detail", texte: "Exporter maintenant pour ne rien perdre" })),
     h("span", { classe: "chevron", texte: "›", "aria-hidden": "true" }));
+}
+
+function ligneEcheance({ personne, icone: nomIcone, detail, dansJours, date }, naviguer) {
+  const classe = dansJours < 0 ? " retard" : " proche";
+  return h("button", { classe: "ligne", type: "button", onclick: () => naviguer(`/personne/${personne.id}`) },
+    pastille(nomIcone),
+    h("span", { classe: "ligne-texte" },
+      h("span", { classe: "principal", texte: nomComplet(personne) }),
+      h("span", { classe: "detail", texte: detail })),
+    h("span", { classe: `quand${classe}`, texte: libelleEcheance(dansJours, date) }));
+}
+
+/** Bandeau « Cette semaine » : anniversaires et suivis des 7 prochains jours, retards compris. */
+function blocSemaine(etat, naviguer) {
+  if (etat.personnes.length === 0) return null;
+  const { anniversaires, suivis } = cetteSemaine(etat, new Date());
+  const lignes = [
+    ...suivis.map((s) => ({ personne: s.personne, icone: "suivi", detail: s.suivi.action,
+      dansJours: s.dans_jours, date: s.suivi.date_promise })),
+    ...anniversaires.map((a) => ({ personne: a.personne, icone: "gateau",
+      detail: a.age === null ? "Anniversaire" : `Anniversaire · ${a.age} ans`, dansJours: a.dans_jours, date: a.date })),
+  ].toSorted((a, b) => a.dansJours - b.dansJours);
+  if (lignes.length === 0) {
+    return h("section", { classe: "bloc" },
+      h("h2", { classe: "entete-section", texte: "Cette semaine" }),
+      h("p", { classe: "note-section", texte: "Ni anniversaire ni suivi promis dans les 7 prochains jours." }));
+  }
+  return groupe("Cette semaine", lignes.map((ligne) => ligneEcheance(ligne, naviguer)));
 }
 
 function ligneEvenement(etat, evenement, naviguer) {
@@ -57,6 +87,7 @@ export function ecranAccueil({ naviguer }) {
     h("div", { classe: "defilant" },
       h("h1", { classe: "grand-titre", texte: "Accueil" }),
       alerteSauvegarde(suivi, naviguer),
+      blocSemaine(etat, naviguer),
       groupe("En attente", [ligneNotes]),
       blocEvenements(etat, naviguer)),
     h("div", { classe: "pied" },
