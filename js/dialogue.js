@@ -2,6 +2,8 @@
 
 import { h } from "./dom.js";
 
+let compteur = 0;
+
 /**
  * Affiche une feuille avec un titre, des paragraphes et des boutons.
  * Chaque action : { libelle, valeur, style?, executer? }. `executer` est appelé
@@ -25,8 +27,12 @@ export function choisir({ titre, lignes = [], actions }) {
           fermer(action.valeur);
         },
       }));
-    const feuille = h("dialog", { classe: "feuille", oncancel: (e) => { e.preventDefault(); fermer(null); } },
-      h("h2", { classe: "feuille-titre", texte: titre }),
+    const idTitre = `feuille-titre-${(compteur += 1)}`;
+    const feuille = h("dialog", {
+      classe: "feuille", "aria-labelledby": idTitre,
+      oncancel: (e) => { e.preventDefault(); fermer(null); },
+    },
+      h("h2", { classe: "feuille-titre", id: idTitre, texte: titre }),
       lignes.map((ligne) => h("p", { classe: "feuille-texte", texte: ligne })),
       h("div", { classe: "feuille-actions" }, boutons));
     document.body.append(feuille);

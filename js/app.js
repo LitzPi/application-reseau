@@ -139,9 +139,27 @@ function suivreZoneVisible() {
   ajuster();
 }
 
+/** Une nouvelle version vient de prendre la main : on propose de recharger, sans l'imposer. */
+function proposerMiseAJour() {
+  const bandeau = document.getElementById("mise-a-jour");
+  bandeau.hidden = false;
+  bandeau.addEventListener("click", () => location.reload(), { once: true });
+}
+
 async function preparerHorsLigne() {
   if (!("serviceWorker" in navigator)) return;
-  await navigator.serviceWorker.register("./sw.js");
+  // Au tout premier lancement, la prise de contrôle n'est pas une mise à jour.
+  const dejaControlee = navigator.serviceWorker.controller !== null;
+  navigator.serviceWorker.addEventListener("controllerchange", () => {
+    if (dejaControlee) proposerMiseAJour();
+  });
+  const enregistrement = await navigator.serviceWorker.register("./sw.js");
+  // Une app installée reste ouverte des jours : on cherche une mise à jour à chaque retour au premier plan.
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState !== "visible") return;
+    // Sans réseau, cette vérification échoue : c'est attendu, l'app reste utilisable telle quelle.
+    enregistrement.update().catch(() => {});
+  });
   await navigator.serviceWorker.ready;
   contexte.horsLigne = true;
 }
