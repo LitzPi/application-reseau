@@ -246,6 +246,27 @@ select.champ-controle { color: var(--accent); text-align-last: right; }
 .champ:focus-within .champ-libelle { color: var(--accent); }
 .note-section.avertissement:empty { display: none; }
 
+/* ------------------------------------------------------------ personnes */
+
+.recherche {
+  width: 100%; min-height: 44px; margin-bottom: 20px; padding: 0 14px;
+  border: 0; border-radius: 12px; background: var(--carte); font-size: 17px;
+  appearance: none; -webkit-appearance: none;
+}
+.recherche::placeholder { color: var(--secondaire); }
+
+.etiquettes { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 4px 20px; }
+.etiquette {
+  background: var(--accent-doux); color: var(--accent);
+  border-radius: 999px; padding: 4px 12px; font-size: 14px; font-weight: 600;
+}
+
+.ligne.empilee { flex-direction: column; align-items: stretch; gap: 3px; padding: 12px 14px; }
+.texte-long { white-space: pre-wrap; overflow-wrap: anywhere; }
+.texte-long.fait { color: var(--secondaire); text-decoration: line-through; }
+.trace { font-size: 13px; color: var(--secondaire); }
+.lien-trace { color: var(--accent); text-decoration: none; min-height: 28px; display: inline-flex; align-items: center; }
+
 /* ------------------------------------------------------------ feuilles de dialogue */
 
 .feuille {

@@ -11,6 +11,8 @@ import { ecranSaisie } from "./ecrans/saisie.js";
 import { ecranSauvegarde } from "./ecrans/sauvegarde.js";
 import { ecranEvenement } from "./ecrans/evenement.js";
 import { ecranNouvelEvenement } from "./ecrans/evenement-nouveau.js";
+import { ecranPersonnes } from "./ecrans/personnes.js";
+import { ecranPersonne } from "./ecrans/personne.js";
 
 const ROUTES = [
   { motif: /^\/$/, ecran: ecranAccueil, onglet: "accueil", vivant: true },
@@ -19,11 +21,14 @@ const ROUTES = [
   { motif: /^\/note\/([\w-]+)(?:\/([\w-]+))?$/, ecran: ecranSaisie, onglet: null, vivant: false },
   { motif: /^\/evenement\/nouveau$/, ecran: ecranNouvelEvenement, onglet: null, vivant: false },
   { motif: /^\/evenement\/([\w-]+)$/, ecran: ecranEvenement, onglet: "accueil", vivant: true },
+  { motif: /^\/personnes$/, ecran: ecranPersonnes, onglet: "personnes", vivant: true },
+  { motif: /^\/personne\/([\w-]+)$/, ecran: ecranPersonne, onglet: "personnes", vivant: true },
   { motif: /^\/sauvegarde$/, ecran: ecranSauvegarde, onglet: "sauvegarde", vivant: true },
 ];
 
 const ONGLETS = [
   { cle: "accueil", libelle: "Accueil", icone: "accueil", chemin: "/" },
+  { cle: "personnes", libelle: "Personnes", icone: "personnes", chemin: "/personnes" },
   { cle: "sauvegarde", libelle: "Sauvegarde", icone: "sauvegarde", chemin: "/sauvegarde" },
 ];
 
