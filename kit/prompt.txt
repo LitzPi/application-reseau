@@ -1,0 +1,1 @@
+Bonjour Claude. Je viens de décompresser le kit « Application Réseau » dans ce dossier. Lis CLAUDE.md puis installation/guide-installation.md, et installe l'application avec moi en me guidant pas à pas : une seule étape par message, et attends ma confirmation avant de passer à la suivante.

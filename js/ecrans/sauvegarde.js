@@ -119,7 +119,7 @@ function blocSauvegarde(meta, proteger) {
       texte: `Sauvegarde à refaire : ${suivi.jours} jours sans export.` }),
     h("button", { classe: "bouton principal grand", type: "button", onclick: proteger(exporter) },
       icone("sauvegarde"), "Exporter"),
-    h("p", { classe: "note-section", texte: "Enregistrez le fichier dans OneDrive, puis donnez-le à Claude." }));
+    h("p", { classe: "note-section", texte: "Enregistrez le fichier dans le dossier donnees/exports de votre dossier synchronisé, puis donnez-le à Claude." }));
 }
 
 function blocImport(meta, instantanes, proteger) {

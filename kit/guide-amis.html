@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Application Réseau</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --fond: #eef1f8;
+    --carte: #ffffff;
+    --texte: #141a2e;
+    --secondaire: #5b6478;
+    --trait: rgba(40, 60, 120, 0.14);
+    --accent: #2447d6;
+    --sur-accent: #ffffff;
+    --accent-doux: #e3e9fd;
+    --code: #f4f6fb;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --fond: #0a0f1f;
+      --carte: #151b2e;
+      --texte: #eef1f8;
+      --secondaire: #9aa3ba;
+      --trait: rgba(200, 210, 255, 0.14);
+      --accent: #7c9bff;
+      --sur-accent: #0a0f1f;
+      --accent-doux: #1f2a52;
+      --code: #0f1426;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--fond);
+    color: var(--texte);
+    font: 17px/1.55 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+    -webkit-text-size-adjust: 100%;
+  }
+  main { max-width: 720px; margin: 0 auto; padding: 40px 16px 64px; }
+
+  .marque { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+  .icone {
+    width: 56px; height: 56px; border-radius: 14px; flex: none;
+    background: linear-gradient(180deg, #3a5bf0, #1a2f9e);
+    display: grid; place-items: center;
+  }
+  .icone svg { width: 34px; height: 34px; }
+  .sur-titre { font-size: 14px; color: var(--secondaire); letter-spacing: 0.2px; }
+  h1 { font-size: 34px; line-height: 1.15; letter-spacing: -0.5px; margin: 0; }
+  .chapeau { font-size: 19px; color: var(--secondaire); margin: 14px 0 26px; }
+
+  .atouts { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; margin-bottom: 44px; }
+  .atout { background: var(--carte); border-radius: 14px; padding: 14px 16px; }
+  .atout strong { display: block; }
+  .atout span { font-size: 15px; color: var(--secondaire); }
+
+  h2 { font-size: 24px; letter-spacing: -0.3px; margin: 44px 0 14px; }
+  p { margin: 0 0 14px; }
+  .discret { color: var(--secondaire); font-size: 15px; }
+
+  .cycle { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+  .cycle li { background: var(--carte); border-radius: 14px; padding: 14px 16px; }
+  .cycle b { display: block; color: var(--accent); font-size: 13px; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 4px; }
+
+  .liste { background: var(--carte); border-radius: 14px; padding: 6px 0; margin: 0; list-style: none; }
+  .liste li { padding: 12px 16px; position: relative; }
+  .liste li + li::before { content: ""; position: absolute; top: 0; left: 16px; right: 0; height: 1px; background: var(--trait); }
+  .liste small { display: block; color: var(--secondaire); font-size: 14px; }
+
+  .etapes { counter-reset: etape; list-style: none; padding: 0; margin: 0; }
+  .etapes > li { position: relative; padding: 0 0 26px 52px; counter-increment: etape; }
+  .etapes > li::before {
+    content: counter(etape); position: absolute; left: 0; top: -2px;
+    width: 34px; height: 34px; border-radius: 50%;
+    background: var(--accent); color: var(--sur-accent);
+    display: grid; place-items: center; font-weight: 700;
+  }
+  .etapes h3 { font-size: 18px; margin: 2px 0 6px; }
+
+  .message { background: var(--carte); border: 1.5px solid var(--accent); border-radius: 14px; padding: 16px; margin-top: 10px; }
+  .message pre {
+    margin: 0 0 14px; white-space: pre-wrap; word-wrap: break-word;
+    font: 15px/1.5 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    background: var(--code); border-radius: 10px; padding: 12px 14px;
+  }
+  .bouton {
+    border: 0; border-radius: 12px; min-height: 46px; padding: 0 20px;
+    background: var(--accent); color: var(--sur-accent);
+    font: inherit; font-weight: 600; cursor: pointer;
+  }
+  .bouton:active { opacity: 0.8; }
+  .confirmation { margin-left: 12px; font-size: 15px; color: var(--secondaire); }
+
+  .encadre { background: var(--accent-doux); border-radius: 14px; padding: 14px 16px; margin-top: 16px; }
+  .encadre strong { color: var(--accent); }
+  .encadre ul { margin: 6px 0 0; padding-left: 20px; }
+
+  code { font: 0.9em ui-monospace, "SF Mono", Menlo, Consolas, monospace; background: var(--code); padding: 1px 6px; border-radius: 6px; }
+
+  details { background: var(--carte); border-radius: 14px; margin-bottom: 8px; }
+  summary { cursor: pointer; padding: 14px 16px; font-weight: 600; list-style: none; position: relative; padding-right: 44px; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; position: absolute; right: 18px; top: 11px; font-size: 22px; color: var(--accent); }
+  details[open] summary::after { content: "−"; }
+  details p { padding: 0 16px 14px; margin: 0; color: var(--secondaire); }
+
+  footer { margin-top: 48px; font-size: 14px; color: var(--secondaire); text-align: center; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+</style>
+</head>
+<body>
+<main>
+
+  <header>
+    <div class="marque">
+      <div class="icone" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="#fff"><circle cx="15.5" cy="8.4" r="2.6" opacity=".55"/><path d="M11.8 19c.4-3 1.8-4.8 3.7-4.8s3.6 1.8 4 4.8z" opacity=".55"/><circle cx="9.5" cy="9" r="3.2"/><path d="M3.5 20c.5-3.8 2.8-6 6-6s5.5 2.2 6 6z"/></svg>
+      </div>
+      <div class="sur-titre">Votre carnet de rencontres sur iPhone</div>
+    </div>
+    <h1>Application Réseau</h1>
+    <p class="chapeau">Notez en dix secondes qui vous avez rencontré et de quoi vous avez parlé. Claude transforme ensuite vos notes en fiches, et vous retrouvez tout avant le prochain événement.</p>
+  </header>
+
+  <div class="atouts">
+    <div class="atout"><strong>Vos données restent chez vous</strong><span>Sur votre iPhone et dans votre dossier synchronisé. Personne d'autre n'y a accès.</span></div>
+    <div class="atout"><strong>Aucune intelligence dans l'app</strong><span>C'est votre Claude qui fait le tri, quand vous le décidez.</span></div>
+    <div class="atout"><strong>Fonctionne hors ligne</strong><span>Une vraie app sur l'écran d'accueil, utilisable d'une main.</span></div>
+  </div>
+
+  <h2>Comment ça marche</h2>
+  <ol class="cycle">
+    <li><b>1. Noter</b>Pendant ou après un échange, vous tapez ou dictez en vrac.</li>
+    <li><b>2. Exporter</b>Un fichier part dans votre dossier synchronisé.</li>
+    <li><b>3. Claude traite</b>Il crée les fiches, les anniversaires et les suivis promis.</li>
+    <li><b>4. Importer</b>Vos fiches à jour reviennent dans l'app.</li>
+  </ol>
+  <p class="discret" style="margin-top:14px">Avant un événement, l'onglet « Préparer » vous montre qui vous risquez de revoir : nom, métier, dernier sujet abordé, un détail personnel, et ce que vous lui aviez promis.</p>
+
+  <h2>Ce qu'il vous faut</h2>
+  <ul class="liste">
+    <li>Un iPhone<small>L'app a été testée sous iOS 26, installée depuis Safari.</small></li>
+    <li>Un ordinateur avec Claude Code<small>L'application Claude pour ordinateur (onglet Code) ou Claude Code dans un terminal, avec un abonnement Claude qui y donne accès.</small></li>
+    <li>Un dossier synchronisé entre l'ordinateur et l'iPhone<small>iCloud Drive, OneDrive, Google Drive ou Dropbox.</small></li>
+    <li>Un compte GitHub gratuit<small>Il héberge votre copie de l'app. Vous pourrez le créer pendant l'installation.</small></li>
+    <li>Facultatif : Google Agenda et Notion<small>Pour que Claude y crée vos anniversaires et vos suivis. D'autres outils sont possibles.</small></li>
+  </ul>
+
+  <h2>Installation</h2>
+  <p>Comptez 30 à 45 minutes. Claude vous guide d'un bout à l'autre, une étape à la fois.</p>
+
+  <ol class="etapes">
+    <li>
+      <h3>Décompressez le kit dans votre dossier synchronisé</h3>
+      <p>Ouvrez le fichier <code>application-reseau-kit.zip</code> reçu avec cette page, puis placez le dossier <code>application-reseau-kit</code> dans votre iCloud Drive, OneDrive, Google Drive ou Dropbox. C'est ce qui permettra à votre iPhone et à Claude de s'échanger des fichiers.</p>
+    </li>
+    <li>
+      <h3>Ouvrez Claude Code dans ce dossier</h3>
+      <p>Démarrez une nouvelle session de Claude Code en choisissant le dossier <code>application-reseau-kit</code> comme dossier de travail.</p>
+    </li>
+    <li>
+      <h3>Copiez ce message dans Claude Code</h3>
+      <div class="message">
+        <pre id="message">{{PROMPT}}</pre>
+        <button class="bouton" type="button" id="copier">Copier le message</button><span class="confirmation" id="confirmation" aria-live="polite"></span>
+      </div>
+    </li>
+    <li>
+      <h3>Laissez-vous guider</h3>
+      <p>Claude vous donne une étape à la fois et attend votre réponse avant de continuer. Si vous êtes interrompu, rouvrez Claude Code dans le même dossier et dites « reprends l'installation ».</p>
+      <div class="encadre">
+        <strong>Ce que vous ferez vous-même</strong>
+        <ul>
+          <li>créer votre compte GitHub et vous y connecter (Claude ne voit jamais vos mots de passe) ;</li>
+          <li>approuver les actions que Claude vous propose ;</li>
+          <li>quelques gestes sur l'iPhone : ajouter l'app à l'écran d'accueil, écrire une note d'essai, exporter, importer ;</li>
+          <li>choisir, si vous le souhaitez, votre agenda et votre outil de tâches.</li>
+        </ul>
+      </div>
+    </li>
+  </ol>
+
+  <h2>Au quotidien</h2>
+  <ul class="liste">
+    <li>Pendant ou après un événement<small>Créez l'événement dans l'app, puis notez ou dictez en vrac : chaque note s'enregistre toute seule.</small></li>
+    <li>Quand vous voulez faire le point<small>Onglet Sauvegarde, « Exporter », vers le dossier <code>donnees/exports</code>.</small></li>
+    <li>Sur l'ordinateur<small>Ouvrez Claude Code dans le dossier du kit et demandez « traite mon dernier export ».</small></li>
+    <li>De retour sur l'iPhone<small>Onglet Sauvegarde, « Importer un fichier », dans le dossier <code>donnees/reference</code>.</small></li>
+  </ul>
+
+  <h2>Questions fréquentes</h2>
+  <details>
+    <summary>Quelqu'un d'autre peut-il voir mes notes ?</summary>
+    <p>Non. L'app n'a ni serveur ni compte : vos notes restent sur votre iPhone, et les fichiers d'échange dans votre propre dossier synchronisé. Seul le code de l'app est publié sur votre compte GitHub, jamais vos données. La personne qui vous a envoyé ce kit n'a accès à rien de ce que vous saisissez.</p>
+  </details>
+  <details>
+    <summary>Combien ça coûte ?</summary>
+    <p>L'app et son hébergement sur GitHub sont gratuits. Il vous faut seulement un abonnement Claude donnant accès à Claude Code.</p>
+  </details>
+  <details>
+    <summary>Ça marche sur Android ?</summary>
+    <p>L'app a été conçue et testée sur iPhone uniquement. Elle s'ouvre probablement sur Android, mais rien n'est garanti.</p>
+  </details>
+  <details>
+    <summary>Et si je perds ou change de téléphone ?</summary>
+    <p>Chaque export est une sauvegarde datée dans votre dossier synchronisé. Réinstallez l'app depuis votre adresse, puis importez votre fichier le plus récent : tout revient.</p>
+  </details>
+  <details>
+    <summary>Puis-je corriger une fiche directement dans l'app ?</summary>
+    <p>Non, c'est voulu : les fiches sont tenues par Claude, pour éviter les conflits. Pour corriger quelque chose, écrivez simplement une note, et Claude mettra la fiche à jour au prochain traitement.</p>
+  </details>
+  <details>
+    <summary>Comment recevoir les nouvelles versions ?</summary>
+    <p>Vous aurez votre propre copie, indépendante. Si on vous envoie un kit plus récent, décompressez-le à côté de l'ancien et demandez à Claude de « mettre à jour l'app avec ce kit » : il ne touchera pas à vos données.</p>
+  </details>
+
+  <footer>Kit version {{VERSION}}</footer>
+</main>
+
+<script>
+  (function () {
+    var bouton = document.getElementById("copier");
+    var texte = document.getElementById("message").textContent;
+    var confirmation = document.getElementById("confirmation");
+
+    function confirmer(message) {
+      confirmation.textContent = message;
+      setTimeout(function () { confirmation.textContent = ""; }, 3000);
+    }
+
+    function copierAncienneMethode() {
+      var zone = document.createElement("textarea");
+      zone.value = texte;
+      zone.setAttribute("readonly", "");
+      zone.style.position = "absolute";
+      zone.style.left = "-9999px";
+      document.body.appendChild(zone);
+      zone.select();
+      var reussi = false;
+      try { reussi = document.execCommand("copy"); } catch (erreur) { reussi = false; }
+      document.body.removeChild(zone);
+      confirmer(reussi ? "Copié !" : "Sélectionnez le texte et copiez-le à la main.");
+    }
+
+    bouton.addEventListener("click", function () {
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(texte).then(function () { confirmer("Copié !"); }, copierAncienneMethode);
+      } else {
+        copierAncienneMethode();
+      }
+    });
+  })();
+</script>
+</body>
+</html>

@@ -129,7 +129,7 @@ L'app ne contient aucune intelligence : tout ce qui demande de comprendre une no
 - Ajouter des échanges et des suivis à une personne ; passer un suivi à `"fait"`.
 - Renseigner les traces techniques : `anniversaire_agenda_le`, `notion_tache_le`, `notion_url`.
 - Fusionner deux personnes en double : garder un identifiant, supprimer l'autre, et remplacer partout l'identifiant supprimé (`personne_ids` des événements).
-- Compléter `personne_ids` d'un événement avec les personnes que ses notes montrent comme **présentes** à cet événement. Une personne seulement mentionnée dans la conversation n'est pas ajoutée.
+- Compléter `personne_ids` d'un événement avec les personnes que les notes montrent comme **présentes** à cet événement : notes rattachées à l'événement, ou note isolée qui nomme clairement un événement existant (« croisé Hugo au salon de la logistique »). Une personne seulement mentionnée dans la conversation n'est pas ajoutée.
 - Renommer un contexte ou une série. Fusionner deux contextes ou deux séries en double, en corrigeant toutes les références.
 - Créer un contexte nécessaire à une nouvelle personne.
 - Passer une note de `"non_traitee"` à `"traitee"`, en renseignant `traitee_le`.

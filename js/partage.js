@@ -1,5 +1,5 @@
 // Sortie du fichier d'export. Trois niveaux, du plus confortable au plus sûr :
-// 1. feuille de partage iOS (vers OneDrive) ; 2. téléchargement ; 3. copie du contenu.
+// 1. feuille de partage iOS (vers le dossier synchronisé) ; 2. téléchargement ; 3. copie du contenu.
 // Les niveaux 2 et 3 sont proposés par des boutons : chacun doit partir d'un geste.
 
 function fichiersCandidats(nom, texte) {
