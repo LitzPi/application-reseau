@@ -19,7 +19,7 @@ Appareil de référence : iPhone sous iOS 26, app installée depuis Safari.
 - [x] Note rattachée à l'événement depuis la page de l'événement — 23/11/2026
 - [x] Rattachement automatique à l'événement du jour, puis « Changer » — 23/11/2026
 - [x] Formulaire « Nouvel événement » : date, série, contexte — 23/11/2026
-- [ ] Dictée par la touche micro du clavier
+- [x] Dictée par la touche micro du clavier — 25/11/2026
 
 ## Export et import
 
@@ -27,8 +27,8 @@ Appareil de référence : iPhone sous iOS 26, app installée depuis Safari.
 - [x] Import depuis OneDrive par le sélecteur de fichiers — 19/11/2026
 - [x] Note saisie après l'export préservée par l'import — 19/11/2026
 - [x] Liens événement, série, contexte et notes corrects dans l'export — 23/11/2026
-- [ ] Annulation du dernier import
-- [ ] Restauration complète sur un téléphone vide (suppression de l'app, réinstallation, import)
+- [x] Annulation du dernier import — 25/11/2026
+- [x] Restauration complète sur un téléphone vide (suppression de l'app, réinstallation, import) — 25/11/2026
 - [ ] Replis de l'export (télécharger, copier) : non déclenchés sur iPhone, le partage fonctionne
 
 ## Consultation
@@ -37,11 +37,11 @@ Appareil de référence : iPhone sous iOS 26, app installée depuis Safari.
 - [x] Onglet Personnes, recherche par mots, fiche complète — 24/11/2026
 - [x] Onglet Préparer : série puis contexte, fiches courtes — 24/11/2026
 - [x] Bandeau « Cette semaine » et onglet Anniversaires — 24/11/2026
-- [ ] Mode sombre et mode clair, changement en cours d'utilisation
+- [x] Mode sombre — 25/11/2026 (mode clair non testé : l'utilisateur reste en sombre)
 - [ ] Utilisation à une main : boutons principaux atteignables au pouce
 
 ## Cycle réel
 
 - [ ] Notes réelles exportées, traitées par Claude avec `docs/format-echange.md`, retour importé
 - [ ] Anniversaire créé dans Google Agenda et suivi créé dans Notion, traces visibles sur la fiche
-- [ ] Départ d'une base propre avant l'usage réel (données de test supprimées)
+- [x] Départ d'une base propre avant l'usage réel (données de test archivées dans OneDrive, app réinstallée) — 25/11/2026
