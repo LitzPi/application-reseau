@@ -11,7 +11,8 @@ Appareil de référence : iPhone sous iOS 26, app installée depuis Safari.
 - [x] Démarrage et saisie en mode avion — 19/11/2026
 - [x] Mise à jour de l'app sans perte de données (0.2.0 → 0.3.0) — 23/11/2026
 - [x] Barre de navigation nette sous la barre d'état d'iOS 26 (correctif 0.3.1) — 23/11/2026
-- [ ] Bandeau « Nouvelle version prête » lors d'une mise à jour (à partir de la 0.7.0)
+- [x] Bandeau « Nouvelle version prête » lors d'une mise à jour (0.7.1 → 0.8.0) — 26/11/2026
+- [ ] Bandeau « Retour de Claude à importer » après un export (à partir de la 0.8.0)
 
 ## Saisie
 
@@ -42,6 +43,9 @@ Appareil de référence : iPhone sous iOS 26, app installée depuis Safari.
 
 ## Cycle réel
 
-- [ ] Notes réelles exportées, traitées par Claude avec `docs/format-echange.md`, retour importé
+- [x] Notes réelles exportées et traitées par Claude avec `docs/format-echange.md` — 26/11/2026
+- [x] Premier retour réel importé sur l'iPhone — 26/11/2026
+- [x] Routine planifiée : passage sans nouvel export, aucun fichier écrit — 26/11/2026
+- [ ] Routine planifiée : traitement d'un nouvel export
 - [ ] Anniversaire créé dans Google Agenda et suivi créé dans Notion, traces visibles sur la fiche
 - [x] Départ d'une base propre avant l'usage réel (données de test archivées dans OneDrive, app réinstallée) — 25/11/2026
