@@ -8,7 +8,7 @@ import { etatVide, construireExport, controlerRevision, fusionner } from "./fusi
 import { creerNote, modifierNote, supprimerNote, rattacherNote } from "./notes.js";
 import { creerContexte, creerSerie, creerEvenement, basculerPresence } from "./evenements.js";
 import {
-  metaVide, marquerModification, marquerSauvegarde, empilerInstantane, annulerImport,
+  metaVide, marquerModification, marquerExport, marquerImport, empilerInstantane, annulerImport,
 } from "./sauvegarde.js";
 
 let donnees = { etat: etatVide(), meta: metaVide(), instantanes: [] };
@@ -112,7 +112,7 @@ export function preparerExport() {
 }
 
 export function confirmerExport() {
-  return remplacer({ meta: marquerSauvegarde(donnees.meta, new Date()) });
+  return remplacer({ meta: marquerExport(donnees.meta, new Date(), donnees.etat.revision) });
 }
 
 // ---------------------------------------------------------------- import
@@ -136,7 +136,7 @@ export async function appliquerImport(fichier, type, nom) {
   const { etat, bilan } = fusionner(donnees.etat, fichier);
   const resteAExporter = bilan.notes_en_attente > 0 || bilan.elements_locaux_conserves > 0;
   const meta = {
-    ...donnees.meta,
+    ...marquerImport(donnees.meta, fichier.revision),
     modifs_depuis_sauvegarde: resteAExporter,
     premiere_modif_le: resteAExporter ? donnees.meta.premiere_modif_le ?? maintenant.toISOString() : null,
     dernier_import: { le: maintenant.toISOString(), nom, type, revision: fichier.revision, bilan },

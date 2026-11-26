@@ -1,15 +1,14 @@
 import { h, icone, groupe } from "../dom.js";
 import { dateHeure, ilYA } from "../dates.js";
 import { choisir, demander, informer } from "../dialogue.js";
+import { importerFichier, proteger as protegerAction, boutonFichier } from "../importer.js";
 import { consigner, lireErreurs } from "../journal.js";
 import { partagerFichier, telechargerFichier, copierTexte } from "../partage.js";
 import { etatSauvegarde } from "../sauvegarde.js";
 import { VERSION } from "../version.js";
 import {
-  lireDonnees, preparerExport, confirmerExport, examinerImport, appliquerImport, annulerDernierImport,
+  lireDonnees, preparerExport, confirmerExport, annulerDernierImport,
 } from "../magasin.js";
-
-const MAX_ERREURS_AFFICHEES = 5;
 
 // ---------------------------------------------------------------- export
 
@@ -40,44 +39,6 @@ async function exporter() {
 
 // ---------------------------------------------------------------- import
 
-function decrireBilan(bilan) {
-  return [
-    `${bilan.personnes} personne(s) dans la base.`,
-    `${bilan.notes_traitees} note(s) marquée(s) comme traitée(s).`,
-    `${bilan.notes_en_attente} note(s) encore en attente.`,
-    bilan.elements_locaux_conserves > 0
-      ? `${bilan.elements_locaux_conserves} élément(s) modifié(s) sur le téléphone après l'export : conservé(s).`
-      : null,
-  ].filter(Boolean);
-}
-
-async function importer(fichierChoisi) {
-  const examen = examinerImport(await fichierChoisi.text());
-  if (!examen.ok) {
-    const visibles = examen.messages.slice(0, MAX_ERREURS_AFFICHEES);
-    const reste = examen.messages.length - visibles.length;
-    await informer("Fichier refusé", [
-      "Rien n'a été modifié sur le téléphone.",
-      ...visibles,
-      reste > 0 ? `… et ${reste} autre(s) erreur(s).` : null,
-    ].filter(Boolean));
-    return;
-  }
-  if (examen.type === "restauration") {
-    const accord = await demander({
-      titre: "Restaurer cette sauvegarde ?",
-      lignes: [
-        "Ce fichier a la même révision que les données du téléphone.",
-        "Les notes saisies depuis seront conservées.",
-      ],
-      confirmer: "Restaurer",
-    });
-    if (!accord) return;
-  }
-  const bilan = await appliquerImport(examen.fichier, examen.type, fichierChoisi.name);
-  await informer("Import réussi", decrireBilan(bilan));
-}
-
 async function annuler() {
   const accord = await demander({
     titre: "Annuler le dernier import ?",
@@ -86,17 +47,6 @@ async function annuler() {
     danger: true,
   });
   if (accord) await annulerDernierImport();
-}
-
-/** Un <label> autour du champ : le toucher ouvre le sélecteur iOS sans script. */
-function boutonFichier(libelle, classe, accepter, surChoix) {
-  const champ = h("input", { type: "file", classe: "champ-cache", accept: accepter });
-  champ.addEventListener("change", () => {
-    const [fichier] = champ.files;
-    champ.value = "";
-    if (fichier) surChoix(fichier);
-  });
-  return h("label", { classe }, champ, libelle);
 }
 
 // ---------------------------------------------------------------- affichage
@@ -126,8 +76,10 @@ function blocImport(meta, instantanes, proteger) {
   const dernier = meta.dernier_import;
   return h("section", { classe: "bloc" },
     h("h2", { classe: "entete-section", texte: "Retour de Claude" }),
-    boutonFichier("Importer un fichier", "bouton secondaire grand", ".json,application/json", proteger(importer)),
-    boutonFichier("Fichier grisé ? Choisir parmi tous les fichiers", "lien centre", null, proteger(importer)),
+    boutonFichier({ classe: "bouton secondaire grand", accepter: ".json,application/json",
+      surChoix: proteger(importerFichier) }, "Importer un fichier"),
+    boutonFichier({ classe: "lien centre", surChoix: proteger(importerFichier) },
+      "Fichier grisé ? Choisir parmi tous les fichiers"),
     dernier && h("div", { classe: "groupe espace" },
       ligneInfo("Dernier import", dateHeure(dernier.le)),
       ligneInfo("Révision", String(dernier.revision))),
@@ -150,16 +102,7 @@ function blocDiagnostic(etat, contexte) {
 
 export function ecranSauvegarde({ contexte, rafraichir }) {
   const { etat, meta, instantanes } = lireDonnees();
-  // Toute erreur inattendue est montrée à l'écran et consignée, jamais avalée.
-  const proteger = (action) => async (...arguments_) => {
-    try {
-      await action(...arguments_);
-    } catch (erreur) {
-      consigner(erreur);
-      await informer("Une erreur est survenue", [erreur.message, "Rien n'a été perdu : réessayez."]);
-      rafraichir();
-    }
-  };
+  const proteger = (action) => protegerAction(action, rafraichir);
 
   const element = h("div", { classe: "ecran" },
     h("div", { classe: "defilant" },

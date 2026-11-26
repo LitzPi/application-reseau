@@ -1,8 +1,9 @@
 import { h, icone, pastille, groupe } from "../dom.js";
-import { dateLongue, ilYA } from "../dates.js";
+import { dateHeure, dateLongue, ilYA } from "../dates.js";
+import { importerFichier, proteger, boutonFichier } from "../importer.js";
 import { lireDonnees } from "../magasin.js";
 import { notesNonTraitees } from "../notes.js";
-import { etatSauvegarde } from "../sauvegarde.js";
+import { etatSauvegarde, retourAttendu } from "../sauvegarde.js";
 import { evenementsRecents, titreEvenement, notesDeLEvenement } from "../evenements.js";
 import { nomComplet } from "../personnes.js";
 import { cetteSemaine, libelleEcheance } from "../semaine.js";
@@ -22,6 +23,19 @@ function alerteSauvegarde(suivi, naviguer) {
     h("span", { classe: "ligne-texte" },
       h("span", { classe: "principal", texte: `${depuis} : ${suivi.jours} jours` }),
       h("span", { classe: "detail", texte: "Exporter maintenant pour ne rien perdre" })),
+    h("span", { classe: "chevron", texte: "›", "aria-hidden": "true" }));
+}
+
+/** Après un export : rappelle d'importer le retour de Claude, en deux gestes. */
+function bandeauRetour(meta) {
+  const attendu = retourAttendu(meta);
+  if (!attendu) return null;
+  // Pas de filtre de type : un fichier n'apparaît jamais grisé dans le sélecteur.
+  return boutonFichier({ classe: "alerte retour", surChoix: proteger(importerFichier) },
+    pastille("sauvegarde"),
+    h("span", { classe: "ligne-texte" },
+      h("span", { classe: "principal", texte: "Retour de Claude à importer" }),
+      h("span", { classe: "detail", texte: `Depuis votre export du ${dateHeure(attendu.depuis)}. Toucher pour choisir le fichier dans donnees/reference.` })),
     h("span", { classe: "chevron", texte: "›", "aria-hidden": "true" }));
 }
 
@@ -86,6 +100,7 @@ export function ecranAccueil({ naviguer }) {
   const element = h("div", { classe: "ecran" },
     h("div", { classe: "defilant" },
       h("h1", { classe: "grand-titre", texte: "Accueil" }),
+      bandeauRetour(meta),
       alerteSauvegarde(suivi, naviguer),
       blocSemaine(etat, naviguer),
       groupe("En attente", [ligneNotes]),

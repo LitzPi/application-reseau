@@ -10,7 +10,28 @@ export function metaVide() {
     modifs_depuis_sauvegarde: false,
     premiere_modif_le: null,
     dernier_import: null,
+    // Après un export, Claude doit renvoyer un fichier : { depuis, revision } ou null.
+    retour_attendu: null,
   };
+}
+
+/** Un export vaut sauvegarde, et annonce un retour de Claude. */
+export function marquerExport(meta, maintenant, revision) {
+  return {
+    ...marquerSauvegarde(meta, maintenant),
+    retour_attendu: { depuis: maintenant.toISOString(), revision },
+  };
+}
+
+/** Un import de révision supérieure à celle exportée est le retour attendu. */
+export function marquerImport(meta, revision) {
+  const attendu = meta.retour_attendu;
+  if (!attendu || revision <= attendu.revision) return meta;
+  return { ...meta, retour_attendu: null };
+}
+
+export function retourAttendu(meta) {
+  return meta.retour_attendu ?? null;
 }
 
 /** À appeler à chaque changement fait sur le téléphone. */

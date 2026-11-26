@@ -136,6 +136,8 @@ button.ligne:active, .alerte:active { background: var(--accent-doux); }
   padding: 10px 14px; margin-bottom: 22px;
 }
 .alerte .pastille { background: transparent; color: var(--danger); }
+.alerte.retour { border-color: var(--accent); cursor: pointer; }
+.alerte.retour .pastille { background: var(--accent-doux); color: var(--accent); }
 
 .vide { color: var(--secondaire); text-align: center; padding: 48px 28px; margin: 0; }
 

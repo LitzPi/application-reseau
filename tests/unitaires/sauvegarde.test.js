@@ -5,7 +5,7 @@ import { etatVide } from "../../js/fusion.js";
 import { creerNote, modifierNote, supprimerNote } from "../../js/notes.js";
 import {
   MAX_INSTANTANES, metaVide, marquerModification, marquerSauvegarde,
-  etatSauvegarde, empilerInstantane, annulerImport,
+  etatSauvegarde, empilerInstantane, annulerImport, marquerExport, marquerImport, retourAttendu,
 } from "../../js/sauvegarde.js";
 
 const jour = (n) => new Date(Date.parse("2026-11-01T09:00:00.000Z") + n * 24 * 60 * 60 * 1000);
@@ -83,4 +83,30 @@ test("annuler un import conserve ce qui a été saisi depuis", () => {
   assert.deepEqual(retabli.notes_brutes.map((n) => n.texte).toSorted(),
     ["ancienne, complétée", "saisie après l'import"]);
   assert.deepEqual(retabli.notes_supprimees, [aSupprimer.note.id]);
+});
+
+test("après un export, un retour de Claude est attendu", () => {
+  const meta = marquerExport(metaVide(), jour(0), 3);
+  assert.deepEqual(retourAttendu(meta), { depuis: jour(0).toISOString(), revision: 3 });
+  assert.equal(etatSauvegarde(meta, jour(1)).a_sauvegarder, false);
+});
+
+test("sans export, aucun retour n'est attendu", () => {
+  assert.equal(retourAttendu(metaVide()), null);
+});
+
+test("importer un retour plus récent que l'export lève l'attente", () => {
+  const meta = marquerExport(metaVide(), jour(0), 3);
+  assert.equal(retourAttendu(marquerImport(meta, 4)), null);
+});
+
+test("restaurer une sauvegarde de même révision ne lève pas l'attente", () => {
+  const meta = marquerExport(metaVide(), jour(0), 3);
+  assert.notEqual(retourAttendu(marquerImport(meta, 3)), null);
+});
+
+test("un nouvel export remplace l'attente précédente", () => {
+  const premier = marquerExport(metaVide(), jour(0), 3);
+  const second = marquerExport(premier, jour(2), 3);
+  assert.equal(retourAttendu(second).depuis, jour(2).toISOString());
 });

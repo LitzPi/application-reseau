@@ -170,3 +170,27 @@ test("l'app redémarre hors ligne avec ses données", async ({ page, context }) 
   await ecrireNote(page, "Écrite hors ligne");
   await expect(page.locator(".compteur")).toHaveText("2");
 });
+
+test("après un export, l'accueil propose d'importer le retour de Claude", async ({ page }) => {
+  await ecrireNote(page, "Note à faire traiter");
+  await expect(page.getByText("Retour de Claude à importer")).toHaveCount(0);
+
+  await onglet(page, "Sauvegarde").click();
+  await page.getByRole("button", { name: "Exporter" }).click();
+  await Promise.all([
+    page.waitForEvent("download"),
+    feuille(page).getByRole("button", { name: "Télécharger le fichier" }).click(),
+  ]);
+
+  await onglet(page, "Accueil").click();
+  const bandeau = page.locator("label.alerte.retour");
+  await expect(bandeau).toContainText("Retour de Claude à importer");
+
+  // Le retour d'exemple (révision 4) est plus récent que l'export (révision 0).
+  await bandeau.locator("input[type=file]").setInputFiles(RETOUR_R4);
+  await expect(feuille(page)).toContainText("Import réussi");
+  await fermerFeuille(page);
+
+  await expect(bandeau).toHaveCount(0);
+  await expect(page.getByText("Cette semaine")).toBeVisible();
+});
